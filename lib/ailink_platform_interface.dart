@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'ailink_method_channel.dart';
@@ -24,6 +26,10 @@ abstract class AilinkPlatform extends PlatformInterface {
   }
 
   Future<String?> getPlatformVersion() {
+    throw UnimplementedError('platformVersion() has not been implemented.');
+  }
+
+  Future<Uint8List?> decryptBroadcast(Uint8List? payload) {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 }

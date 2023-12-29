@@ -11,7 +11,17 @@ class MethodChannelAilink extends AilinkPlatform {
 
   @override
   Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
+    final version =
+        await methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
+  }
+
+  @override
+  Future<Uint8List?> decryptBroadcast(Uint8List? payload) async {
+    final decryptPayload = await methodChannel.invokeMethod<Uint8List?>(
+      'decryptBroadcast',
+      payload,
+    );
+    return decryptPayload;
   }
 }
