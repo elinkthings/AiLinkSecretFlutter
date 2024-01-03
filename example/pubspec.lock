@@ -77,6 +77,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_blue_plus:
+    dependency: "direct main"
+    description:
+      name: flutter_blue_plus
+      sha256: f9d546a09009650f4d2918f50cc76d39d8e84f74314a7c87dce197253e292c3a
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.31.4"
   flutter_driver:
     dependency: transitive
     description: flutter

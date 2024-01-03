@@ -10,13 +10,13 @@
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		331C80F4294D02FB00263BE5 /* RunnerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 331C80F3294D02FB00263BE5 /* RunnerTests.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
+		9216687BF837CAE23B7D1923 /* libPods-Runner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 719B76672FE0D1026A015A97 /* libPods-Runner.a */; };
 		978B8F6F1D3862AE00F588F7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AFFD8EE1D35381100E5BB4D /* AppDelegate.m */; };
 		97C146F31CF9000F007C117D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C146F21CF9000F007C117D /* main.m */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		B5D9A34D28F4313F3D4B8B2E /* libPods-RunnerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B89DC59D36B5903F8E1A073 /* libPods-RunnerTests.a */; };
-		F418FBC74B6DF3C7EBF4D4C2 /* libPods-Runner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 719B76672FE0D1026A015A97 /* libPods-Runner.a */; };
 		F8CAE5412B3FFB9300F316F3 /* AILinkSecretTool.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8CAE5402B3FFB9300F316F3 /* AILinkSecretTool.framework */; };
 /* End PBXBuildFile section */
 
@@ -85,7 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F8CAE5412B3FFB9300F316F3 /* AILinkSecretTool.framework in Frameworks */,
-				F418FBC74B6DF3C7EBF4D4C2 /* libPods-Runner.a in Frameworks */,
+				9216687BF837CAE23B7D1923 /* libPods-Runner.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
