@@ -1,0 +1,6 @@
+platform :ios, '9.0'
+
+target 'Runner' do
+  # 将 .a 文件包含在项目中
+  vendored_libraries = 'Classes/**/*.a'
+end
