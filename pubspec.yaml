@@ -1,5 +1,5 @@
 name: ailink
-description: A new Flutter plugin project supporting AiLink broadcast scale data analysis.
+description: AiLink broadcast scale data decryption and body fat algorithm Flutter library.
 version: 0.0.1
 homepage: https://github.com/elinkthings/AiLinkSecretFlutter
 
