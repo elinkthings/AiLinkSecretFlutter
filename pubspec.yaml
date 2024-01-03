@@ -1,7 +1,7 @@
 name: ailink
-description: A new Flutter plugin project.
+description: A new Flutter plugin project supporting AiLink broadcast scale data analysis.
 version: 0.0.1
-homepage:
+homepage: https://www.elinkthings.com/en/
 
 environment:
   sdk: '>=3.0.6 <4.0.0'

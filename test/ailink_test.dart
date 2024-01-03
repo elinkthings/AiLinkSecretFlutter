@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ailink/ailink.dart';
 import 'package:ailink/ailink_platform_interface.dart';
@@ -10,6 +12,12 @@ class MockAilinkPlatform
 
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
+
+  @override
+  Future<Uint8List?> decryptBroadcast(Uint8List? payload) => Future.value(null);
+
+  @override
+  Future<String?> getBodyFatData(String param) => Future.value(null);
 }
 
 void main() {
