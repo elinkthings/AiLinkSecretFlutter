@@ -15,10 +15,13 @@ samples, guidance on mobile development, and a full API reference.
 
 1、import AiLink plugin
 import 'package:ailink/ailink.dart';
+
 2、Plug-in initialization
 final _ailinkPlugin = Ailink();
+
 3、Decrypt data
 _ailinkPlugin.decryptBroadcast(Uint8List)
+
 4、Get body fat data
 _ailinkPlugin.getBodyFatData(ParamBodyFatData().toJson())
 
