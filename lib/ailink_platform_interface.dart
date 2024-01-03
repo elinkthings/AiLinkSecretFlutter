@@ -30,6 +30,10 @@ abstract class AilinkPlatform extends PlatformInterface {
   }
 
   Future<Uint8List?> decryptBroadcast(Uint8List? payload) {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+    throw UnimplementedError('decryptBroadcast() has not been implemented.');
+  }
+
+  Future<String?> getBodyFatData(String param) {
+    throw UnimplementedError('getBodyFatData() has not been implemented.');
   }
 }

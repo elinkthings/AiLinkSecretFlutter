@@ -1,5 +1,6 @@
 #import "AilinkPlugin.h"
 #import <AILinkSecretTool/ELEncryptTool.h>
+#import "Algorithm/AlgorithmSDK.h"
 
 @implementation AilinkPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
@@ -20,6 +21,33 @@
         NSLog(@"data: %@", typedData.data);
         NSLog(@"decryptData: %@", decryptData);
         result(decryptData);
+    } else if ([@"getBodyFatData" isEqualToString:call.method]) {
+        NSLog(@"argment: %@", call.arguments);
+        NSData *jsonData = [call.arguments dataUsingEncoding:NSUTF8StringEncoding];
+        NSError *error = nil;
+        NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+        // 检查解析是否成功
+        if (jsonDictionary) {
+            double weight = [jsonDictionary[@"weight"] doubleValue];
+            int adc = [jsonDictionary[@"adc"] intValue];
+            int sex = [jsonDictionary[@"sex"] intValue];
+            int age = [jsonDictionary[@"age"] intValue];
+            int height = [jsonDictionary[@"height"] intValue];
+            int algNum = [jsonDictionary[@"algNum"] intValue];
+            
+            if (sex == 2) {
+                sex = 0;
+            }
+            NSLog(@"weight: %f, adc: %d, sex: %d, age: %d, height: %d, algNum: %d", weight, adc, sex, age, height, algNum);
+            AlgorithmModel *model = [AlgorithmSDK getBodyfatWithWeight:weight adc:adc sex:AlgUserSex_Male age:age height:height algNum:algNum];
+            NSString *bodyFatDataJsonStr = [NSString stringWithFormat:@"{\"bmi\": %@, \"bfr\": %@, \"sfr\": %@, \"uvi\": %@, \"rom\": %@, \"bmr\": %@, \"bm\": %@, \"vwc\": %@, \"physicalAge\": %@, \"pp\": %@}", model.bmi, model.bfr, model.sfr, model.uvi, model.rom, model.bmr, model.bm, model.vwc, model.physicalAge, model.pp];
+            NSLog(@"getBodyFatData: %@", bodyFatDataJsonStr);
+            result(bodyFatDataJsonStr);
+        } else {
+            // 处理解析错误
+            NSLog(@"Error parsing JSON: %@", error.localizedDescription);
+            result(nil);
+        }
     } else {
         result(FlutterMethodNotImplemented);
     }

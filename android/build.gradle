@@ -42,10 +42,15 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
+        ndk{
+            //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters 'armeabi-v7a','arm64-v8a'
+        }
     }
 
     dependencies {
+        implementation files('libs/AlgorithmUtil.jar')
         implementation 'com.github.elinkthings:AILinkSecretAndroid:2.0.0'
         testImplementation 'org.jetbrains.kotlin:kotlin-test'
         testImplementation 'org.mockito:mockito-core:5.0.0'

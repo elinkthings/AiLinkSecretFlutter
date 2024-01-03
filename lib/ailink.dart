@@ -10,4 +10,8 @@ class Ailink {
   Future<Uint8List?> decryptBroadcast(Uint8List? payload) {
     return AilinkPlatform.instance.decryptBroadcast(payload);
   }
+
+  Future<String?> getBodyFatData(String param) {
+    return AilinkPlatform.instance.getBodyFatData(param);
+  }
 }

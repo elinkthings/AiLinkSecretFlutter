@@ -24,4 +24,13 @@ class MethodChannelAilink extends AilinkPlatform {
     );
     return decryptPayload;
   }
+
+  @override
+  Future<String?> getBodyFatData(String param) async {
+    final bodyFatData = await methodChannel.invokeMethod<String?>(
+      'getBodyFatData',
+      param,
+    );
+    return bodyFatData;
+  }
 }
