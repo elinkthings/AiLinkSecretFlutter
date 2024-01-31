@@ -1,4 +1,4 @@
-import 'package:ailink_example/weight_data.dart';
+import 'package:ailink_example/model/weight_data.dart';
 import 'dart:math' as math;
 
 class BroadcastScaleDataUtils {

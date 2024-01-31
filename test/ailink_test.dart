@@ -18,6 +18,9 @@ class MockAilinkPlatform
 
   @override
   Future<String?> getBodyFatData(String param) => Future.value(null);
+
+  @override
+  Future<Uint8List?> initHandShake() => Future.value(null);
 }
 
 void main() {

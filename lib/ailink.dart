@@ -14,4 +14,16 @@ class Ailink {
   Future<String?> getBodyFatData(String param) {
     return AilinkPlatform.instance.getBodyFatData(param);
   }
+
+  Future<Uint8List?> initHandShake() {
+    return AilinkPlatform.instance.initHandShake();
+  }
+
+  Future<Uint8List?> getHandShakeEncryptData(Uint8List? payload) {
+    return AilinkPlatform.instance.getHandShakeEncryptData(payload);
+  }
+
+  Future<bool> checkHandShakeStatus(Uint8List? payload) {
+    return AilinkPlatform.instance.checkHandShakeStatus(payload);
+  }
 }

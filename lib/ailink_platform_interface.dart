@@ -36,4 +36,16 @@ abstract class AilinkPlatform extends PlatformInterface {
   Future<String?> getBodyFatData(String param) {
     throw UnimplementedError('getBodyFatData() has not been implemented.');
   }
+
+  Future<Uint8List?> initHandShake() {
+    throw UnimplementedError('initHandShake() has not been implemented.');
+  }
+
+  Future<Uint8List?> getHandShakeEncryptData(Uint8List? payload) {
+    throw UnimplementedError('getHandShakeEncryptData() has not been implemented.');
+  }
+
+  Future<bool> checkHandShakeStatus(Uint8List? payload) {
+    throw UnimplementedError('checkHandShakeStatus() has not been implemented.');
+  }
 }

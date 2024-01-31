@@ -11,8 +11,9 @@ class MethodChannelAilink extends AilinkPlatform {
 
   @override
   Future<String?> getPlatformVersion() async {
-    final version =
-        await methodChannel.invokeMethod<String>('getPlatformVersion');
+    final version = await methodChannel.invokeMethod<String>(
+      'getPlatformVersion',
+    );
     return version;
   }
 
@@ -32,5 +33,31 @@ class MethodChannelAilink extends AilinkPlatform {
       param,
     );
     return bodyFatData;
+  }
+
+  @override
+  Future<Uint8List?> initHandShake() async {
+    final handShakeData = await methodChannel.invokeMethod<Uint8List?>(
+      'initHandShake',
+    );
+    return handShakeData;
+  }
+
+  @override
+  Future<Uint8List?> getHandShakeEncryptData(Uint8List? payload) async {
+    final encryptData = await methodChannel.invokeMethod<Uint8List?>(
+      'getHandShakeEncryptData',
+      payload,
+    );
+    return encryptData;
+  }
+
+  @override
+  Future<bool> checkHandShakeStatus(Uint8List? payload) async {
+    final status = await methodChannel.invokeMethod<bool?>(
+      'checkHandShakeStatus',
+      payload,
+    );
+    return status ?? false;
   }
 }
