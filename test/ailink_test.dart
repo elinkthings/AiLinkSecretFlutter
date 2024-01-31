@@ -21,6 +21,12 @@ class MockAilinkPlatform
 
   @override
   Future<Uint8List?> initHandShake() => Future.value(null);
+
+  @override
+  Future<bool> checkHandShakeStatus(Uint8List? payload) => Future.value(true);
+
+  @override
+  Future<Uint8List?> getHandShakeEncryptData(Uint8List? payload) => Future.value(null);
 }
 
 void main() {
