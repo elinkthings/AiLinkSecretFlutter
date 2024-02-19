@@ -1,13 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:ailink/ailink.dart';
-import 'package:ailink_example/model/param_body_fat_data.dart';
-import 'package:ailink_example/utils/ble_common_util.dart';
-import 'package:ailink_example/model/body_fat_data.dart';
-import 'package:ailink_example/utils/broadcast_scale_data_utils.dart';
+import 'package:ailink/utils/broadcast_scale_data_utils.dart';
+import 'package:ailink/utils/common_extensions.dart';
+import 'package:ailink/utils/ble_common_util.dart';
+import 'package:ailink/model/param_body_fat_data.dart';
+import 'package:ailink/model/body_fat_data.dart';
 import 'package:ailink_example/utils/constants.dart';
-import 'package:ailink_example/utils/extensions.dart';
 import 'package:ailink_example/utils/log_utils.dart';
 import 'package:ailink_example/widgets/widget_ble_state.dart';
 import 'package:flutter/material.dart';
@@ -70,8 +69,8 @@ class _HomePageState extends State<HomePage> {
               'Scan',
               () => FlutterBluePlus.startScan(withServices: [
                 ///Filter specified scales by serviceUUID
-                ElinkBleCommonUtils.elinkBroadcastDeviceUuid,
-                ElinkBleCommonUtils.elinkConnectDeviceUuid
+                Guid(ElinkBleCommonUtils.elinkBroadcastDeviceUuid),
+                Guid(ElinkBleCommonUtils.elinkConnectDeviceUuid)
               ]).onError((error, stackTrace) {
                 LogUtils().log('startScan error: ${error.toString()}');
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -109,7 +108,7 @@ class _HomePageState extends State<HomePage> {
             itemCount: list.length,
             itemBuilder: (context, index) {
               List<int> manufacturerData = getManufacturerData(list[index].advertisementData.manufacturerData);
-              final uuids = list[index].advertisementData.serviceUuids;
+              final uuids = list[index].advertisementData.serviceUuids.map((uuid) => uuid.str).toList();
               final isBroadcastDevice = ElinkBleCommonUtils.isBroadcastDevice(uuids);
               return ListTile(
                 title: Text(

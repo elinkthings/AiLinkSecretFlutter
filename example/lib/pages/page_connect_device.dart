@@ -2,7 +2,8 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:ailink/ailink.dart';
-import 'package:ailink_example/utils/ble_common_util.dart';
+import 'package:ailink/utils/common_extensions.dart';
+import 'package:ailink/utils/ble_common_util.dart';
 import 'package:ailink_example/utils/extensions.dart';
 import 'package:ailink_example/widgets/widget_ble_state.dart';
 import 'package:flutter/material.dart';
@@ -115,13 +116,13 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
   }
 
   void _setNotify(List<BluetoothService> services) async {
-    final service = services.firstWhere((service) => service.serviceUuid == ElinkBleCommonUtils.elinkConnectDeviceUuid);
+    final service = services.firstWhere((service) => service.serviceUuid.str.equal(ElinkBleCommonUtils.elinkConnectDeviceUuid));
     _addLog('_setNotify characteristics: ${service.characteristics.map((e) => e.uuid).join(',').toUpperCase()}');
     for (var characteristic in service.characteristics) {
-      if (characteristic.uuid == ElinkBleCommonUtils.elinkNotifyUuid || characteristic.uuid == ElinkBleCommonUtils.elinkWriteAndNotifyUuid) {
+      if (characteristic.uuid.str.equal(ElinkBleCommonUtils.elinkNotifyUuid) || characteristic.uuid.str.equal(ElinkBleCommonUtils.elinkWriteAndNotifyUuid)) {
         _addLog('_setNotify characteristics uuid: ${characteristic.uuid}');
         await characteristic.setNotifyValue(true);
-        if (characteristic.uuid == ElinkBleCommonUtils.elinkWriteAndNotifyUuid) {
+        if (characteristic.uuid.str.equal(ElinkBleCommonUtils.elinkWriteAndNotifyUuid)) {
           _onReceiveDataSubscription = characteristic.onValueReceived.listen((data) {
             _addLog('OnValueReceived: ${data.toHex()}');
             if (ElinkBleCommonUtils.isSetHandShakeCmd(data)) {

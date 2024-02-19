@@ -1,5 +1,6 @@
-import 'package:ailink_example/model/weight_data.dart';
 import 'dart:math' as math;
+
+import 'package:ailink/model/weight_data.dart';
 
 class BroadcastScaleDataUtils {
   int _oldNumberId = -1;
