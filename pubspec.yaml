@@ -1,6 +1,6 @@
 name: ailink
 description: AiLink broadcast scale data decryption and body fat algorithm Flutter library.
-version: 0.0.3
+version: 0.0.4
 homepage: https://github.com/elinkthings/AiLinkSecretFlutter
 
 environment:

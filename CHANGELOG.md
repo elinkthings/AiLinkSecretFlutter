@@ -1,3 +1,7 @@
+## 0.0.4
+
+* code optimization
+
 ## 0.0.3
 
 * add ble handshake encryption and decryption
