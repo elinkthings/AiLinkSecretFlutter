@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:ailink/ailink.dart';
-import 'package:ailink/utils/common_extensions.dart';
 import 'package:ailink/utils/ble_common_util.dart';
+import 'package:ailink/utils/common_extensions.dart';
+import 'package:ailink/utils/elink_cmd_utils.dart';
 import 'package:ailink_example/utils/extensions.dart';
 import 'package:ailink_example/widgets/widget_ble_state.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
   final logList = <String>[];
 
   final _ailinkPlugin = Ailink();
+  final ScrollController _controller = ScrollController();
 
   BluetoothDevice? _bluetoothDevice;
   StreamSubscription<BluetoothConnectionState>? _connectionStateSubscription;
@@ -28,7 +30,7 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
   @override
   void initState() {
     super.initState();
-    _addLog('initState');
+    // _addLog('initState');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _addLog('addPostFrameCallback');
       _bluetoothDevice = ModalRoute.of(context)?.settings.arguments as BluetoothDevice;
@@ -92,6 +94,7 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
         ],
       ),
       body: ListView.separated(
+        controller: _controller,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -124,7 +127,7 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
         await characteristic.setNotifyValue(true);
         if (characteristic.uuid.str.equal(ElinkBleCommonUtils.elinkWriteAndNotifyUuid)) {
           _onReceiveDataSubscription = characteristic.onValueReceived.listen((data) {
-            _addLog('OnValueReceived: ${data.toHex()}');
+            _addLog('OnValueReceived [${characteristic.uuid.str}]: ${data.toHex()}, checked: ${ElinkCmdUtils.checkElinkCmdSum(data)}');
             if (ElinkBleCommonUtils.isSetHandShakeCmd(data)) {
               _replyHandShake(characteristic, data);
             }
@@ -159,7 +162,16 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
       setState(() {
         logList.add(log);
       });
+      _scrollToBottom();
     }
+  }
+
+  void _scrollToBottom() {
+    _controller.animateTo(
+      _controller.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
@@ -168,6 +180,7 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
     _bluetoothDevice = null;
     _onReceiveDataSubscription?.cancel();
     _connectionStateSubscription?.cancel();
+    _controller.dispose();
     super.dispose();
   }
 }
