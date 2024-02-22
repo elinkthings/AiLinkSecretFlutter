@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSData *)decryptBroadcast:(NSData *)payload;
 
++ (NSData *)returnMcuDataFormat:(NSData *)data;
+
 @end
 
 NS_ASSUME_NONNULL_END

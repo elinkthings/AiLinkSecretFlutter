@@ -27,6 +27,12 @@ class MockAilinkPlatform
 
   @override
   Future<Uint8List?> getHandShakeEncryptData(Uint8List? payload) => Future.value(null);
+
+  @override
+  Future<Uint8List> mcuEncrypt(Uint8List cid, Uint8List mac, Uint8List payload) => Future(() => Uint8List(0));
+
+  @override
+  Future<Uint8List> mcuDecrypt(Uint8List mac, Uint8List payload) => Future(() => Uint8List(0));
 }
 
 void main() {

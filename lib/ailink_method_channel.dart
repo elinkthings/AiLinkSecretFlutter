@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
@@ -59,5 +61,31 @@ class MethodChannelAilink extends AilinkPlatform {
       payload,
     );
     return status ?? false;
+  }
+
+  @override
+  Future<Uint8List> mcuEncrypt(
+      Uint8List cid, Uint8List mac, Uint8List payload) async {
+    final result = await methodChannel.invokeMethod<Uint8List>(
+      'mcuEncrypt',
+      Map.of(<String, Object>{
+        'cid': cid,
+        'mac': mac,
+        'payload': payload,
+      }),
+    );
+    return result ?? Uint8List(0);
+  }
+
+  @override
+  Future<Uint8List> mcuDecrypt(Uint8List mac, Uint8List payload) async {
+    final result = await methodChannel.invokeMethod<Uint8List>(
+      'mcuDecrypt',
+      Map.of(<String, Object>{
+        'mac': mac,
+        'payload': payload,
+      }),
+    );
+    return result ?? Uint8List(0);
   }
 }

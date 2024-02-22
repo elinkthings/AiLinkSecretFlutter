@@ -1,9 +1,9 @@
 package com.elinkthings.sdk.ailink
 
-import android.util.Log
 import androidx.annotation.NonNull
 import cn.net.aicare.algorithmutil.AlgorithmUtil
 import cn.net.aicare.algorithmutil.AlgorithmUtil.AlgorithmType
+import com.elinkthings.ailinksecretlib.AiLinkBleCheckUtil
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -88,6 +88,33 @@ class AilinkPlugin : FlutterPlugin, MethodCallHandler {
                     result.success(status)
                 } else {
                     result.success(false)
+                }
+            }
+            "mcuEncrypt" -> {
+                LogUtils.d(TAG, "mcuEncrypt: ${call.arguments}")
+                if (call.arguments is Map<*, *>) {
+                    val map = call.arguments as Map<*, *>
+                    val cid = map["cid"] as ByteArray
+                    val mac = map["mac"] as ByteArray
+                    val payload = map["payload"] as ByteArray
+                    LogUtils.d(TAG, "mcuEncrypt: cid=${cid.toHexString()}, mac=${mac.toHexString()}, payload=${payload.toHexString()}")
+                    val encryptData = ElinkMcuDataUtils.mcuEncrypt(cid, mac, payload)
+                    result.success(encryptData)
+                } else {
+                    result.success(byteArrayOf())
+                }
+            }
+            "mcuDecrypt" -> {
+                LogUtils.d(TAG, "mcuDecrypt: ${call.arguments}")
+                if (call.arguments is Map<*, *>) {
+                    val map = call.arguments as Map<*, *>
+                    val mac = map["mac"] as ByteArray
+                    val payload = map["payload"] as ByteArray
+                    val decryptData = ElinkMcuDataUtils.mcuDecrypt(mac, payload)
+                    LogUtils.d(TAG, "mcuDecrypt: mac=${mac.toHexString()}, payload=${payload.toHexString()}")
+                    result.success(decryptData)
+                } else {
+                    result.success(byteArrayOf())
                 }
             }
             else -> {

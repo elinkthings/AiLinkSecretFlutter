@@ -14,8 +14,8 @@ object ElinkBroadDataUtils {
     /**
      * Decrypt the broadcast data.
      *
-     * @param payload byte[]
-     * @return byte[]
+     * @param payload ByteArray
+     * @return [ByteArray]
      */
     fun decryptBroadcast(payload: ByteArray): ByteArray {
         if (payload.size >= 20) {
@@ -24,11 +24,11 @@ object ElinkBroadDataUtils {
             val pidB = ByteArray(1)
             var start = 0
             System.arraycopy(payload, start, cidB, 0, cidB.size)
-            start += 1
+            start += cidB.size
             System.arraycopy(payload, start, vidB, 0, vidB.size)
-            start += 1
+            start += cidB.size
             System.arraycopy(payload, start, pidB, 0, pidB.size)
-            start += 1
+            start += cidB.size
             //特殊广播,包含是否可以绑定的标志
             val cid = cidB[0].toInt() and 0xff
             val vid = vidB[0].toInt() and 0xff

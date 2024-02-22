@@ -26,4 +26,12 @@ class Ailink {
   Future<bool> checkHandShakeStatus(Uint8List? payload) {
     return AilinkPlatform.instance.checkHandShakeStatus(payload);
   }
+
+  Future<Uint8List> mcuEncrypt(Uint8List cid, Uint8List mac, Uint8List payload) {
+    return AilinkPlatform.instance.mcuEncrypt(cid, mac, payload);
+  }
+
+  Future<Uint8List> mcuDecrypt(Uint8List mac, Uint8List payload) {
+    return AilinkPlatform.instance.mcuDecrypt(mac, payload);
+  }
 }

@@ -48,4 +48,12 @@ abstract class AilinkPlatform extends PlatformInterface {
   Future<bool> checkHandShakeStatus(Uint8List? payload) {
     throw UnimplementedError('checkHandShakeStatus() has not been implemented.');
   }
+
+  Future<Uint8List> mcuEncrypt(Uint8List cid, Uint8List mac, Uint8List payload) {
+    throw UnimplementedError('mcuEncrypt() has not been implemented.');
+  }
+
+  Future<Uint8List> mcuDecrypt(Uint8List mac, Uint8List payload) {
+    throw UnimplementedError('mcuDecrypt() has not been implemented.');
+  }
 }

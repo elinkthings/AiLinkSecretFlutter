@@ -17,7 +17,7 @@
         result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
     } else if ([@"decryptBroadcast" isEqualToString:call.method]) {
         FlutterStandardTypedData *typedData = call.arguments;
-        NSData * data = typedData.data;
+        NSData *data = typedData.data;
         NSData *decryptData = [ElinkBroadDataUtils decryptBroadcast: data];
         NSLog(@"data: %@", typedData.data);
         NSLog(@"decryptData: %@", decryptData);
@@ -53,10 +53,30 @@
         result([ELEncryptTool handshake]);
     } else if ([@"getHandShakeEncryptData" isEqualToString:call.method]) {
         FlutterStandardTypedData *typedData = call.arguments;
-        NSData * data = typedData.data;
+        NSData *data = typedData.data;
         result([ELEncryptTool blueToothHandshakeWithData:data]);
     } else if ([@"checkHandShakeStatus" isEqualToString:call.method]) {
         result([NSNumber numberWithBool:YES]);
+    } else if ([@"mcuEncrypt" isEqualToString:call.method]) {
+        NSLog(@"mcuEncrypt: %@", call.arguments);
+        FlutterStandardTypedData *cidTypedData = call.arguments[@"cid"];
+        FlutterStandardTypedData *macTypedData = call.arguments[@"mac"];
+        FlutterStandardTypedData *payloadTypedData = call.arguments[@"payload"];
+        NSData *cid = cidTypedData.data;
+        NSData *mac = macTypedData.data;
+        NSData *payload = payloadTypedData.data;
+        NSLog(@"mcuEncrypt: cid=%@, mac=%@, payload=%@", cid, mac, payload);
+        result([ELEncryptTool encryptXOR:mac deviceTypeXOR:cid withXORData:payload]);
+    } else if ([@"mcuDecrypt" isEqualToString:call.method]) {
+        NSLog(@"mcuDecrypt: %@", call.arguments);
+        FlutterStandardTypedData *macTypedData = call.arguments[@"mac"];
+        FlutterStandardTypedData *payloadTypedData = call.arguments[@"payload"];
+        NSData *mac = macTypedData.data;
+        NSData *payload = payloadTypedData.data;
+        NSData *cid = [payload subdataWithRange:NSMakeRange(1, 2)];
+        NSData *data = [ElinkBroadDataUtils returnMcuDataFormat: payload];
+        NSLog(@"mcuDecrypt: cid=%@, mac=%@, payload=%@", cid, mac, data);
+        result([ELEncryptTool encryptXOR:mac deviceTypeXOR:cid withXORData:data]);
     } else {
         result(FlutterMethodNotImplemented);
     }

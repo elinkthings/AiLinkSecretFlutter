@@ -1,6 +1,5 @@
 package com.elinkthings.sdk.ailink
 
-import android.util.Log
 import com.elinkthings.ailinksecretlib.AiLinkBleCheckUtil
 import com.elinkthings.ailinksecretlib.CmdConfig
 import java.util.*

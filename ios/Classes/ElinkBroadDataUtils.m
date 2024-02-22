@@ -12,7 +12,7 @@
 
 + (NSData *)decryptBroadcast:(NSData *)payload {
     if (payload.length >= 20) {
-        Byte * byte = (Byte *)[payload bytes];
+        Byte *byte = (Byte *)[payload bytes];
         Byte byteCid = byte[0];
         int vid = byte[1];
         int pid = byte[2];
@@ -52,6 +52,20 @@
         }
         return is;
     }
+}
+
++ (NSData *)returnMcuDataFormat:(NSData *)data {
+    NSData *returnData = nil;
+    NSUInteger length = [data length];
+    if (length >= 4) {
+        const unsigned char *bytes = [data bytes];
+        int two = bytes[3] & 0xFF;
+        if (length >= two + 4) {
+            NSRange range = NSMakeRange(4, two);
+            returnData = [data subdataWithRange:range];
+        }
+    }
+    return returnData;
 }
 
 @end
