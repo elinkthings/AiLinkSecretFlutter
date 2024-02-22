@@ -127,4 +127,37 @@ That completes the handshake
     _ailinkPlugin.getHandShakeEncryptData(Uint8List.fromList(data))
 ```
 
+### Broadcasting Data Parsing: ElinkBleData(cid,vid,pid,mac)
+1. Determine whether the device is a broadcast device or a connected device, based on the UUIDs obtained from the broadcast data.
+```dart
+    final isBroadcastDevice = ElinkBleCommonUtils.isBroadcastDevice(uuids);
+```
+2. Use the getElinkBleData() method provided in ElinkBroadcastDataUtils to obtain ElinkBleData by passing the broadcast data. Since broadcast device and connected device broadcast data are different, the isBroadcastDevice flag needs to be passed.
+```dart
+  final isBroadcastDevice = ElinkBleCommonUtils.isBroadcastDevice(uuids);
+  final elinkBleData = ElinkBroadcastDataUtils.getElinkBleData(manufacturerData, isBroadcastDevice: isBroadcastDevice);
+```
+
+### Elink A7 Data Encryption and Decryption
+1. For encryption, pass elinkBleData.macArr, cidArr, and the payload data to be decrypted.
+```dart
+    final _alink = Ailink();
+    final encrypted = await _alink.mcuEncrypt(Uint8List.fromList(elinkbleData.cidArr), Uint8List.fromList(elinkBleData.macArr), Uint8List.fromList(payload));
+```
+2. For decryption, pass elinkBleData.macArr and the data to be encrypted.
+```dart
+    final _alink = Ailink();
+    final decrypted = await _alink.mcuDecrypt(Uint8List.fromList(elinkBleData.macArr), Uint8List.fromList());
+```
+
+### Connected Device Protocol Command Handling
+1. Use getElinkA6Data and getElinkA7Data methods in ElinkCmdUtils to obtain A6 and A7 protocol commands.
+```dart
+    import 'package:ailink/utils/elink_cmd_utils.dart';
+    final a6Data = ElinkCmdUtils.getElinkA6Data(payload);
+    final a7Data = ElinkCmdUtils.getElinkA7Data(cid, _mac, payload);
+```
+2. ElinkCmdUtils also provides some commonly used byte manipulation methods.
+
+
 For specific usage, please see example

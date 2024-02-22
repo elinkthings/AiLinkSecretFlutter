@@ -90,7 +90,7 @@ graph TD
 ```
 
 2. 插件初始化
-```
+```dart
     final _ailinkPlugin = Ailink();
 ```
 
@@ -126,5 +126,38 @@ graph TD
 ```
     _ailinkPlugin.getHandShakeEncryptData(Uint8List.fromList(data))
 ```
+
+### 广播数据解析ElinkBleData(cid,vid,pid,mac)
+1. 判断设备是广播设备还是连接设备，传入广播数据中获取的uuids
+```dart
+    final isBroadcastDevice = ElinkBleCommonUtils.isBroadcastDevice(uuids);
+```
+2. ElinkBroadcastDataUtils中提供了getElinkBleData()方法，传入广播数据即可获取ElinkBleData，因为广播设备和连接设备广播数据不一样，所以需要传入isBroadcastDevice标识。
+```dart
+  final isBroadcastDevice = ElinkBleCommonUtils.isBroadcastDevice(uuids);
+  final elinkBleData = ElinkBroadcastDataUtils.getElinkBleData(manufacturerData, isBroadcastDevice: isBroadcastDevice);
+```
+
+### Elink A7数据加解密
+1. 加密，传入elinkBleData.macArr、cidArr和要解密的数据payload
+```dart
+    final _alink = Ailink();
+    final encrypted = await _alink.mcuEncrypt(Uint8List.fromList(elinkbleData.cidArr), Uint8List.fromList(elinkBleData.macArr), Uint8List.fromList(payload));
+```
+2. 解密，传入elinkBleData.macArr和要加密的数据data
+```dart
+    final _alink = Ailink();
+    final decrypted = await _alink.mcuDecrypt(Uint8List.fromList(elinkBleData.macArr), Uint8List.fromList());
+```
+
+### 连接设备协议命令处理
+1. ElinkCmdUtils中提供了getElinkA6Data和getElinkA7Data方法获取A6和A7协议指令
+```dart
+    import 'package:ailink/utils/elink_cmd_utils.dart';
+    final a6Data = ElinkCmdUtils.getElinkA6Data(payload);
+    final a7Data = ElinkCmdUtils.getElinkA7Data(cid, _mac, payload);
+```
+2. ElinkCmdUtils中还提供了一些常用字节操作方法
+
 
 具体使用方法，请参照示例

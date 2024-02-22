@@ -1,3 +1,9 @@
+## 0.0.5
+
+* Add broadcast data analysis cid, vid, pid and mac
+* A7 data encryption and decryption
+* Connection device A6 and A7 protocol command processing
+
 ## 0.0.4
 
 * code optimization
