@@ -1,7 +1,7 @@
 class ParamBodyFatData {
-  double weight;
+  double weight; ///Unit is kg
   int adc;
-  int sex;
+  int sex; ///0: female, 1: male
   int age;
   int height;
   int algNum;

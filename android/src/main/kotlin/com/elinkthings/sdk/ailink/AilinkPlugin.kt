@@ -58,7 +58,7 @@ class AilinkPlugin : FlutterPlugin, MethodCallHandler {
                     val algNum = jsonObject.getInt("algNum")
                     val type = if (algNum != 0) AlgorithmType.TYPE_ICOMON else AlgorithmType.TYPE_AICARE
                     val sexI = if (sex == 0) 2 else sex
-                    val bodyFatData = AlgorithmUtil.getBodyFatData(type, sexI, age, weight, height, adc)
+                    val bodyFatData = AlgorithmUtil.getBodyFatData(AlgorithmType.TYPE_AICARE, sexI, age, weight, height, adc)
                     result.success("{\"bmi\": ${bodyFatData.bmi}, \"bfr\": ${bodyFatData.bfr}, \"sfr\": ${bodyFatData.sfr}, \"uvi\": ${bodyFatData.uvi}, \"rom\": ${bodyFatData.rom}, \"bmr\": ${bodyFatData.bmr}, \"bm\": ${bodyFatData.bm}, \"vwc\": ${bodyFatData.vwc}, \"physicalAge\": ${bodyFatData.bodyAge}, \"pp\": ${bodyFatData.pp}}")
                 } catch (e: JSONException) {
                     e.printStackTrace()

@@ -40,7 +40,7 @@
                 sex = 0;
             }
             NSLog(@"weight: %f, adc: %d, sex: %d, age: %d, height: %d, algNum: %d", weight, adc, sex, age, height, algNum);
-            AlgorithmModel *model = [AlgorithmSDK getBodyfatWithWeight:weight adc:adc sex:AlgUserSex_Male age:age height:height algNum:algNum];
+            AlgorithmModel *model = [AlgorithmSDK getBodyfatWithWeight:weight adc:adc sex:sex age:age height:height algNum:0];
             NSString *bodyFatDataJsonStr = [NSString stringWithFormat:@"{\"bmi\": %@, \"bfr\": %@, \"sfr\": %@, \"uvi\": %@, \"rom\": %@, \"bmr\": %@, \"bm\": %@, \"vwc\": %@, \"physicalAge\": %@, \"pp\": %@}", model.bmi, model.bfr, model.sfr, model.uvi, model.rom, model.bmr, model.bm, model.vwc, model.physicalAge, model.pp];
             NSLog(@"getBodyFatData: %@", bodyFatDataJsonStr);
             result(bodyFatDataJsonStr);
