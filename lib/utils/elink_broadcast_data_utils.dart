@@ -13,6 +13,7 @@ class ElinkBroadcastDataUtils {
     final pid = List.filled(2, 0);
     final mac = List.filled(6, 0);
     final length = manufacturerData.length;
+    if (manufacturerData.isEmpty) return ElinkBleData(cid, vid, pid, mac);
     if (isBroadcastDevice && length >= 3) {
       int start = 0;
       cid.setRange(1, cid.length, manufacturerData.sublist(start, start += 1));
