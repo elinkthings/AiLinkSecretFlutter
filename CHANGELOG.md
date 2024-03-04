@@ -1,3 +1,7 @@
+## 0.0.8
+
+* Decimal point processing of body fat data.
+
 ## 0.0.7
 
 * Increase the retrieval of standard weight, weight control amount, fat mass, lean body mass, muscle mass, protein amount, and obesity level.
