@@ -106,6 +106,24 @@ graph TD
     _ailinkPlugin.getBodyFatData(ParamBodyFatData().toJson())
 ```
 
+3. Get standard weight, weight control, fat mass, lean body mass, muscle mass, protein mass and obesity level.
+```dart
+    import 'package:ailink/utils/body_data_utils.dart';
+    const sex = 1; ///1: male; Others: Female
+    const height = 170.0; ///cm
+    const weight = 69.20; ///kg
+    const bfr = 19.5; ///body fat rate
+    const rom = 50.4; ///muscle rate
+    const pp = 17.2;  ///protein rate
+    final standardWeight = BodyDataUtils.getStandardWeight(sex, height);
+    final weightControl = BodyDataUtils.getWeightControl(weight, sex, height);
+    final fatMass = BodyDataUtils.getFatMass(weight, bfr);
+    final leanBodyMass = BodyDataUtils.getLeanBodyMass(weight, bfr);
+    final muscleMass = BodyDataUtils.getMuscleMass(weight, rom);
+    final proteinMass = BodyDataUtils.getProteinMass(weight, pp);
+    final level = BodyDataUtils.getObesityLevel(weight, sex, height);
+```
+
 ### Bluetooth Handshake Command Encryption and Decryption
 
 After connecting to the device, two handshakes are required

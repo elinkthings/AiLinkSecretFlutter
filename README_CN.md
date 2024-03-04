@@ -105,6 +105,23 @@ graph TD
 ```
     _ailinkPlugin.getBodyFatData(ParamBodyFatData().toJson())
 ```
+3. 获取标准体重、体重控制量、脂肪量、去脂体重、肌肉量、蛋白量和肥胖等级
+```dart
+    import 'package:ailink/utils/body_data_utils.dart';
+    const sex = 1; ///1: 男; 其它: 女
+    const height = 170.0; ///cm
+    const weight = 69.20; ///kg
+    const bfr = 19.5; ///体脂率
+    const rom = 50.4; ///肌肉率
+    const pp = 17.2;  ///蛋白率
+    final standardWeight = BodyDataUtils.getStandardWeight(sex, height);
+    final weightControl = BodyDataUtils.getWeightControl(weight, sex, height);
+    final fatMass = BodyDataUtils.getFatMass(weight, bfr);
+    final leanBodyMass = BodyDataUtils.getLeanBodyMass(weight, bfr);
+    final muscleMass = BodyDataUtils.getMuscleMass(weight, rom);
+    final proteinMass = BodyDataUtils.getProteinMass(weight, pp);
+    final level = BodyDataUtils.getObesityLevel(weight, sex, height);
+```
 
 ### 蓝牙握手加解密
 

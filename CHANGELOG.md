@@ -1,3 +1,7 @@
+## 0.0.7
+
+* Increase the retrieval of standard weight, weight control amount, fat mass, lean body mass, muscle mass, protein amount, and obesity level.
+
 ## 0.0.6
 
 * Fix the problem of obtaining body fat data.
