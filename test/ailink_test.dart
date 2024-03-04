@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:ailink/utils/body_data_utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ailink/ailink.dart';
 import 'package:ailink/ailink_platform_interface.dart';
@@ -48,5 +49,28 @@ void main() {
     AilinkPlatform.instance = fakePlatform;
 
     expect(await ailinkPlugin.getPlatformVersion(), '42');
+  });
+
+  test('bodyDataUtils', () {
+    const sex = 1;
+    const height = 175.0;
+    const weight = 65.6;
+    const bfr = 14.2;
+    const rom = 51.1;
+    const pp = 18.4;
+    final standardWeight = BodyDataUtils.getStandardWeight(sex, height);
+    print('standardWeight: $standardWeight');
+    final weightControl = BodyDataUtils.getWeightControl(weight, sex, height);
+    print('weightControl: $weightControl');
+    final fatMass = BodyDataUtils.getFatMass(weight, bfr);
+    print('fatMass: $fatMass');
+    final leanBodyMass = BodyDataUtils.getLeanBodyMass(weight, bfr);
+    print('leanBodyMass: $leanBodyMass');
+    final muscleMass = BodyDataUtils.getMuscleMass(weight, rom);
+    print('muscleMass: $muscleMass');
+    final proteinMass = BodyDataUtils.getProteinMass(weight, pp);
+    print('proteinMass: $proteinMass');
+    final level = BodyDataUtils.getObesityLevel(weight, sex, height);
+    print('level: $level');
   });
 }
