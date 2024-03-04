@@ -3,7 +3,20 @@ class BodyDataUtils {
   /// @param: sex(1: male; Others: Female)
   /// @param: height(cm)
   /// @result: (kg)
-  static double getStandardWeight(int sex, double height) {
+  static String getStandardWeight(
+    int sex,
+    double height, {
+    int fractionDigits = 1,
+  }) {
+    final standardWeight = getStandardWeightDouble(sex, height);
+    return standardWeight.toStringAsFixed(fractionDigits);
+  }
+
+  /// 标准体重
+  /// @param: sex(1: male; Others: Female)
+  /// @param: height(cm)
+  /// @result: (kg)
+  static double getStandardWeightDouble(int sex, double height) {
     if (sex == 1) {
       return (height - 80) * 0.7;
     } else {
@@ -16,42 +29,63 @@ class BodyDataUtils {
   /// @param: sex(1: male; Others: Female)
   /// @param: height(cm)
   /// @result: (positive number: lose weight, negative number: gain weight), kg
-  static double getWeightControl(double weight, int sex, double height) {
-    final standardWeight = getStandardWeight(sex, height);
-    return weight - standardWeight;
+  static String getWeightControl(
+    double weight,
+    int sex,
+    double height, {
+    int fractionDigits = 1,
+  }) {
+    final standardWeight = getStandardWeightDouble(sex, height);
+    return (weight - standardWeight).toStringAsFixed(fractionDigits);
   }
 
   /// 脂肪量
   /// @param: weight(kg)
   /// @param: bfr(体脂率 body fat rate)
   /// @result: (kg)
-  static double getFatMass(double weight, double bfr) {
-    return weight * bfr / 100;
+  static String getFatMass(
+    double weight,
+    double bfr, {
+    int fractionDigits = 1,
+  }) {
+    return (weight * bfr / 100).toStringAsFixed(fractionDigits);
   }
 
   /// 去脂体重
   /// @param: weight(kg)
   /// @param: bfr(体脂率 body fat rate)
   /// @result: (kg)
-  static double getLeanBodyMass(double weight, double bfr) {
-    double fatMass = getFatMass(weight, bfr);
-    return weight - fatMass;
+  static String getLeanBodyMass(
+    double weight,
+    double bfr, {
+    int fractionDigits = 1,
+  }) {
+    double fatMass = weight * bfr / 100;
+    return (weight - fatMass).toStringAsFixed(fractionDigits);
   }
 
   /// 肌肉量
   /// @param: weight(kg)
   /// @param: rom(肌肉率 muscle rate)
   /// @result: (kg)
-  static double getMuscleMass(double weight, double rom) {
-    return weight * rom / 100;
+  static String getMuscleMass(
+    double weight,
+    double rom, {
+    int fractionDigits = 1,
+  }) {
+    return (weight * rom / 100).toStringAsFixed(fractionDigits);
   }
 
   /// 蛋白量
   /// @param: weight(kg)
   /// @param: pp(蛋白率 protein rate)
   /// @result: (kg)
-  static double getProteinMass(double weight, double pp) {
-    return weight * pp / 100;
+  static String getProteinMass(
+    double weight,
+    double pp, {
+    int fractionDigits = 1,
+  }) {
+    return (weight * pp / 100).toStringAsFixed(fractionDigits);
   }
 
   /// 肥胖等级 Obesity level
@@ -60,7 +94,7 @@ class BodyDataUtils {
   /// @param: height(cm)
   /// @result: ObesityLevel
   static ObesityLevel getObesityLevel(double weight, int sex, double height) {
-    final standardWeight = getStandardWeight(sex, height);
+    final standardWeight = getStandardWeightDouble(sex, height);
     final result = (weight - standardWeight) / standardWeight;
     if (result < -0.2) {
       return ObesityLevel.underweight;
@@ -79,12 +113,16 @@ class BodyDataUtils {
 enum ObesityLevel {
   ///体重不足
   underweight,
+
   ///偏瘦
   thin,
+
   ///标准
   standard,
+
   ///偏重
   biased,
+
   ///超重
   overweight,
 }
