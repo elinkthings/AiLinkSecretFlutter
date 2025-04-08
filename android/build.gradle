@@ -2,15 +2,15 @@ group 'com.elinkthings.sdk.ailink'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.7.10'
+    ext.kotlin_version = "1.8.22"
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath("com.android.tools.build:gradle:8.7.0")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
     }
 }
 
@@ -21,28 +21,30 @@ allprojects {
     }
 }
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
 
 android {
-    compileSdkVersion 31
+    namespace = "com.elinkthings.sdk.ailink"
+
+    compileSdk = 35
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_11
     }
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
     }
 
     defaultConfig {
-        minSdkVersion 21
+        minSdk = 21
         ndk{
             //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
             abiFilters 'armeabi-v7a','arm64-v8a'
@@ -52,8 +54,8 @@ android {
     dependencies {
         implementation files('libs/AlgorithmUtil.jar')
         implementation 'com.github.elinkthings:AILinkSecretAndroid:2.0.0'
-        testImplementation 'org.jetbrains.kotlin:kotlin-test'
-        testImplementation 'org.mockito:mockito-core:5.0.0'
+        testImplementation("org.jetbrains.kotlin:kotlin-test")
+        testImplementation("org.mockito:mockito-core:5.0.0")
     }
 
     testOptions {
@@ -61,9 +63,9 @@ android {
             useJUnitPlatform()
 
             testLogging {
-               events "passed", "skipped", "failed", "standardOut", "standardError"
-               outputs.upToDateWhen {false}
-               showStandardStreams = true
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen {false}
+                showStandardStreams = true
             }
         }
     }

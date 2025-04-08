@@ -12,7 +12,8 @@ class OperateBtnWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return MaterialButton(
+      color: Colors.blue,
       onPressed: onPressed,
       child: Text(
         title,

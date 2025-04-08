@@ -3,12 +3,16 @@ import 'dart:typed_data';
 
 import 'package:ailink/ailink.dart';
 import 'package:ailink/impl/elink_common_data_parse_callback.dart';
+import 'package:ailink/model/elink_ble_data.dart';
 import 'package:ailink/utils/ble_common_util.dart';
 import 'package:ailink/utils/common_extensions.dart';
+import 'package:ailink/utils/elink_broadcast_data_utils.dart';
 import 'package:ailink/utils/elink_cmd_utils.dart';
 import 'package:ailink/utils/elink_common_cmd_utils.dart';
 import 'package:ailink/utils/elink_common_data_parse_utils.dart';
+import 'package:ailink_example/model/connect_device_model.dart';
 import 'package:ailink_example/utils/extensions.dart';
+import 'package:ailink_example/utils/log_utils.dart';
 import 'package:ailink_example/widgets/widget_ble_state.dart';
 import 'package:ailink_example/widgets/widget_operate_btn.dart';
 import 'package:flutter/material.dart';
@@ -27,11 +31,14 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
   final _ailinkPlugin = Ailink();
   final ScrollController _controller = ScrollController();
 
+  ElinkBleData? _bleData;
   BluetoothDevice? _bluetoothDevice;
   StreamSubscription<BluetoothConnectionState>? _connectionStateSubscription;
   StreamSubscription<List<int>>? _onReceiveDataSubscription;
+  StreamSubscription<List<int>>? _onReceiveA7DataSubscription;
 
   BluetoothCharacteristic? _dataA6Characteristic;
+  BluetoothCharacteristic? _dataA7Characteristic;
   late ElinkCommonDataParseUtils _elinkCommonDataParseUtils;
 
   @override
@@ -40,7 +47,9 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
     // _addLog('initState');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _addLog('addPostFrameCallback');
-      _bluetoothDevice = ModalRoute.of(context)?.settings.arguments as BluetoothDevice;
+      final deviceModel = ModalRoute.of(context)?.settings.arguments as ConnectDeviceModel;
+      _bluetoothDevice = deviceModel.device;
+      _bleData = deviceModel.bleData;
       _connectionStateSubscription = _bluetoothDevice?.connectionState.listen((state) {
         if (state.isConnected) {
           _addLog('Connected');
@@ -54,6 +63,7 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
           });
         } else {
           _dataA6Characteristic = null;
+          _dataA7Characteristic = null;
           _addLog('Disconnected: code(${_bluetoothDevice?.disconnectReason?.code}), desc(${_bluetoothDevice?.disconnectReason?.description})');
         }
       });
@@ -70,12 +80,14 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blue,
+        centerTitle: false,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               _bluetoothDevice?.advName ?? 'Unknown',
-              style: const TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18, color: Colors.white),
             ),
             StreamBuilder<BluetoothConnectionState>(
               initialData: BluetoothConnectionState.disconnected,
@@ -85,7 +97,7 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
                     snapshot.data ?? BluetoothConnectionState.disconnected;
                 return Text(
                   state.isConnected ? 'Connected' : 'Disconnected',
-                  style: const TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14, color: Colors.white),
                 );
               },
             )
@@ -202,10 +214,19 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
             }
             _elinkCommonDataParseUtils.parseElinkCommonData(data);
           });
-
           _dataA6Characteristic = characteristic;
-          // await _restartBleModule(characteristic);
+          await _setHandShake(characteristic);
+        } else if (characteristic.uuid.str.equal(ElinkBleCommonUtils.elinkNotifyUuid)) {
+          _onReceiveA7DataSubscription = characteristic.onValueReceived.listen((data) async {
+            final checked = ElinkCmdUtils.checkElinkCmdSum(data);
+            final cid = data.sublist(1, 3);
+            final mac = _bleData?.macArr ?? [];
+            final decrypted = await Ailink().mcuDecrypt(Uint8List.fromList(mac), Uint8List.fromList(data));
+            _addLog('OnValueReceived [${characteristic.uuid.str}]: ${data.toHex()}, decrypted: ${decrypted.toHex()}, cid: ${cid.toHex()}, mac: ${ElinkBroadcastDataUtils.littleBytes2MacStr(mac)}, checked: $checked');
+          });
         }
+      } else if (characteristic.uuid.str.equal(ElinkBleCommonUtils.elinkWriteUuid)) {
+        _dataA7Characteristic = characteristic;
       }
     }
   }
@@ -263,6 +284,7 @@ class _ConnectDevicePageState extends State<ConnectDevicePage> {
     _dataA6Characteristic = null;
     _onReceiveDataSubscription?.cancel();
     _connectionStateSubscription?.cancel();
+    _onReceiveA7DataSubscription?.cancel();
     _controller.dispose();
     super.dispose();
   }

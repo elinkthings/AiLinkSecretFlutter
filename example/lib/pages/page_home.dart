@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:ailink/ailink.dart';
+import 'package:ailink/model/elink_ble_data.dart';
 import 'package:ailink/utils/broadcast_scale_data_utils.dart';
 import 'package:ailink/utils/common_extensions.dart';
 import 'package:ailink/utils/ble_common_util.dart';
 import 'package:ailink/utils/elink_broadcast_data_utils.dart';
 import 'package:ailink/model/param_body_fat_data.dart';
 import 'package:ailink/model/body_fat_data.dart';
+import 'package:ailink_example/model/connect_device_model.dart';
 import 'package:ailink_example/utils/constants.dart';
 import 'package:ailink_example/utils/log_utils.dart';
 import 'package:ailink_example/widgets/widget_ble_state.dart';
@@ -26,24 +28,23 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('AiLink Secret Tool example app'),
-          actions: const [
-            BleStateWidget(),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        title: const Text('AiLink Secret Tool example app', style: TextStyle(color: Colors.white),),
+        actions: const [
+          BleStateWidget(),
+        ],
+      ),
+      body: SizedBox(
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            _buildNotSupportedWidget,
+            _buildOperatorWidget,
+            Expanded(child: _buildScanResultWidget)
           ],
-        ),
-        body: SizedBox(
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _buildNotSupportedWidget,
-              _buildOperatorWidget,
-              Expanded(child: _buildScanResultWidget)
-            ],
-          ),
         ),
       ),
     );
@@ -91,7 +92,8 @@ class _HomePageState extends State<HomePage> {
       );
 
   Widget _buildOperatorBtn(String title, Function() onPressed) {
-    return ElevatedButton(
+    return MaterialButton(
+      color: Colors.blue,
       onPressed: onPressed,
       child: Text(
         title,
@@ -135,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     isBroadcastDevice
                         ? _buildBroadcastWidget(manufacturerData)
-                        : _buildConnectDeviceWidget(list[index]),
+                        : _buildConnectDeviceWidget(list[index], elinkBleData),
                   ],
                 ),
                 trailing: Text(
@@ -197,7 +199,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildConnectDeviceWidget(ScanResult scanResult) {
+  Widget _buildConnectDeviceWidget(ScanResult scanResult, ElinkBleData bleData) {
     final device = scanResult.device;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -205,7 +207,7 @@ class _HomePageState extends State<HomePage> {
         InkWell(
           onTap: () {
             FlutterBluePlus.stopScan();
-            Navigator.pushNamed(context, page_connect_device, arguments: device);
+            Navigator.pushNamed(context, page_connect_device, arguments: ConnectDeviceModel(device: device, bleData: bleData));
           },
           child: Container(
             color: Colors.black,
