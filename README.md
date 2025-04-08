@@ -177,5 +177,21 @@ That completes the handshake
 ```
 2. ElinkCmdUtils also provides some commonly used byte manipulation methods.
 
+### Common device protocol commands
+1. Restart module
+```dart
+   import 'package:ailink/utils/elink_common_cmd_utils.dart';
+   final data = ElinkCommonCmdUtils.restartElinkBleModule();
+```
+2. Get the device version
+```dart
+   import 'package:ailink/utils/elink_common_cmd_utils.dart';
+   final data = ElinkCommonCmdUtils.getElinkBmVersion();
+```
+3. Clear handshake data
+```dart
+   import 'package:ailink/utils/elink_common_cmd_utils.dart';
+   final data = ElinkCommonCmdUtils.clearElinkHandShake();
+```
 
 For specific usage, please see example

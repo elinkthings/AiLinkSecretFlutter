@@ -1,3 +1,8 @@
+## 1.0.0
+
+* Added restart module, clear handshake, get Bluetooth version command processing.
+* Updated AGP and sample optimizations.
+
 ## 0.0.8
 
 * Decimal point processing of body fat data.

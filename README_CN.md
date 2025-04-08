@@ -41,9 +41,22 @@ AiLink广播数据解密、体脂数据算法和连接设备握手加解密Flutt
 3. 使用flutter_blue_plus库, 需要在android/app/src/main/AndroidManifest.xml文件中添加相关权限
 ```
     <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-        <uses-permission android:name="android.permission.BLUETOOTH" />
-        <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+        <!-- Tell Google Play Store that your app uses Bluetooth LE
+             Set android:required="true" if bluetooth is necessary -->
+        <uses-feature android:name="android.hardware.bluetooth_le" android:required="false" />
+
+        <!-- New Bluetooth permissions in Android 12
+        https://developer.android.com/about/versions/12/features/bluetooth-permissions -->
+        <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" />
+        <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+        <!-- legacy for Android 11 or lower -->
+        <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+        <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30"/>
+    
+        <!-- legacy for Android 9 or lower -->
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:maxSdkVersion="28" />
     <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 ```
 
@@ -175,6 +188,23 @@ graph TD
     final a7Data = ElinkCmdUtils.getElinkA7Data(cid, _mac, payload);
 ```
 2. ElinkCmdUtils中还提供了一些常用字节操作方法
+
+### 常用设备协议命令
+1. 重启模块
+```dart
+   import 'package:ailink/utils/elink_common_cmd_utils.dart';
+   final data = ElinkCommonCmdUtils.restartElinkBleModule();
+```
+2. 获取设备版本号
+```dart
+   import 'package:ailink/utils/elink_common_cmd_utils.dart';
+   final data = ElinkCommonCmdUtils.getElinkBmVersion();
+```
+3. 清除握手数据
+```dart
+   import 'package:ailink/utils/elink_common_cmd_utils.dart';
+   final data = ElinkCommonCmdUtils.clearElinkHandShake();
+```
 
 
 具体使用方法，请参照示例
