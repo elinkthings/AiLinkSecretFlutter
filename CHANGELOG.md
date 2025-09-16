@@ -1,3 +1,7 @@
+## 1.1.0
+
+* Support for Android 16KB page size.
+
 ## 1.0.0
 
 * Added restart module, clear handshake, get Bluetooth version command processing.
