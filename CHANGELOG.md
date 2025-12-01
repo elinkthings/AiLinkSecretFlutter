@@ -1,3 +1,6 @@
+## 1.1.1
+* [Android] Fix java.lang.ClassNotFoundException: Didn't find class "com.pinwang.ailinkble.AiLinkPwdUtil".
+
 ## 1.1.0
 
 * Support for Android 16KB page size.

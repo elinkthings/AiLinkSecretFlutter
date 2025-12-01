@@ -53,7 +53,7 @@ android {
 
     dependencies {
         implementation files('libs/AlgorithmUtil.jar')
-        implementation files('libs/AILinkSecretAndroid.jar')
+        implementation 'com.github.elinkthings:AILinkSecretAndroid:2.0.0'
         testImplementation("org.jetbrains.kotlin:kotlin-test")
         testImplementation("org.mockito:mockito-core:5.0.0")
     }
